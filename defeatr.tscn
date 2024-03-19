@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://ct7h3gd0drwrj"]
+
+[ext_resource type="Script" path="res://defeatr.gd" id="1_40ymy"]
+[ext_resource type="Texture2D" uid="uid://cll0yjporfy6d" path="res://menu/buttonrestart.png" id="2_kusmo"]
+[ext_resource type="Texture2D" uid="uid://ct8tf1ph8tjvd" path="res://menu/defeat.png" id="2_pjj38"]
+[ext_resource type="Texture2D" uid="uid://5gns3svkwi1" path="res://menu/buttonhome.png" id="3_h32q5"]
+[ext_resource type="AudioStream" uid="uid://cp1xnxifj0uv4" path="res://audio/defeat.wav" id="5_uthot"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_40ymy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -520.0
+offset_top = -943.0
+offset_right = 560.0
+offset_bottom = 977.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_pjj38")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -644.0
+offset_right = 1672.0
+offset_bottom = 1536.02
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.3, 0.3)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RestartButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+icon = ExtResource("2_kusmo")
+flat = true
+
+[node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("3_h32q5")
+flat = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_uthot")
+autoplay = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]

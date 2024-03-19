@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8tgji4xnsdnv"]
+
+[ext_resource type="VideoStream" path="res://menu/cinematic.ogv" id="1_dfn70"]
+[ext_resource type="Script" path="res://cinematic.gd" id="1_gmyij"]
+[ext_resource type="Texture2D" uid="uid://5gns3svkwi1" path="res://menu/buttonhome.png" id="3_qvkjg"]
+[ext_resource type="AudioStream" uid="uid://cgk34rseppsws" path="res://audio/cinematic.wav" id="4_mcbns"]
+
+[sub_resource type="Animation" id="Animation_1ie2i"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition/ColorRect:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0tjir"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Transition/ColorRect:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hfv3y"]
+_data = {
+"fade_in": SubResource("Animation_1ie2i"),
+"fade_out": SubResource("Animation_0tjir")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_gmyij")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+offset_right = 1088.0
+offset_bottom = 2336.0
+stream = ExtResource("1_dfn70")
+autoplay = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 718.0
+offset_top = 44.0
+offset_right = 2646.0
+offset_bottom = 1132.0
+scale = Vector2(0.16, 0.16)
+icon = ExtResource("3_qvkjg")
+flat = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_mcbns")
+autoplay = true
+
+[node name="Transition" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hfv3y")
+}
+
+[node name="ColorRect" type="ColorRect" parent="Transition"]
+visible = false
+self_modulate = Color(0, 0, 0, 0.5)
+offset_right = 1078.0
+offset_bottom = 1924.0
+
+[connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="animation_finished" from="Transition" to="." method="_on_transition_animation_finished"]
